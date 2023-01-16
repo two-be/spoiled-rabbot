@@ -62,6 +62,10 @@ public class WebhookController : ControllerBase
     public async Task<IActionResult> PostForLine([FromBody] LineWebhookRequest value)
     {
         _logger.LogInformation("__{value}__", value.ToJson());
+        if (value.Events[0].Message.Type == "Sticker")
+        {
+            value.Events[0].Message.Type = "Text";
+        }
         using var client = _http.CreateClient();
         var rs = await client.PostAsJsonAsync($"https://dialogflow.cloud.google.com/v1/integrations/line/webhook/{_settings.Dialogflow.AgentId}", value);
         var content = await rs.Content.ReadAsStringAsync();
