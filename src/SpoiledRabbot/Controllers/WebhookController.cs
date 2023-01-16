@@ -39,19 +39,14 @@ public class WebhookController : ControllerBase
         }
         else
         {
-            var images = new List<dynamic> {
-                new { AltText = "ชิดจู่", Url = "images/12131016.png" },
-                new { AltText = "พูดโง่ไรน่ะ?", Url = "images/12131017.png" },
+            var images = new List<string> {
+                "https://spoiled-rabbot.twobe.net/images/12131016.png",
+                "https://spoiled-rabbot.twobe.net/images/12131017.png",
             };
             var random = new Random();
             var i = random.Next(2);
-            var image = images[i];
-            var protocol = Request.IsHttps ? "https" : "http";
-            var url = $"{protocol}://{Request.Host}/{image.Url}";
 
-            _logger.LogInformation("__{url}__", url);
-
-            await _line.ReplyImageAsync(image.AltText, replyToken, url);
+            await _line.ReplyImageAsync(replyToken, images[i]);
         }
         return Ok();
     }

@@ -24,21 +24,11 @@ public class LineService
         }
     }
 
-    public async Task ReplyImageAsync(string altText, string replyToken, string url)
+    public async Task ReplyImageAsync(string replyToken, string url)
     {
         using (var line = new LineMessagingClient(_settings.Line.ChannelAccessToken))
         {
-            var message = new FlexMessage(altText)
-            {
-                Contents = new BubbleContainer
-                {
-                    Hero = new ImageComponent
-                    {
-                        AspectMode = AspectMode.Cover,
-                        Url = "https://spoiled-rabbot.twobe.net/images/12131017.png",
-                    },
-                },
-            };
+            var message = new ImageMessage(url, url);
             var messages = new List<ISendMessage>();
             messages.Add(message);
             await line.ReplyMessageAsync(replyToken, messages);
