@@ -23,4 +23,25 @@ public class LineService
             await line.ReplyMessageAsync(replyToken, messages);
         }
     }
+
+    public async Task ReplyImageAsync(string altText, string replyToken, string url)
+    {
+        using (var line = new LineMessagingClient(_settings.Line.ChannelAccessToken))
+        {
+            var message = new FlexMessage(altText)
+            {
+                Contents = new BubbleContainer
+                {
+                    Hero = new ImageComponent
+                    {
+                        AspectMode = AspectMode.Cover,
+                        Url = url,
+                    },
+                },
+            };
+            var messages = new List<ISendMessage>();
+            messages.Add(message);
+            await line.ReplyMessageAsync(replyToken, messages);
+        }
+    }
 }

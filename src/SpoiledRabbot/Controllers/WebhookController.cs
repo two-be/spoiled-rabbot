@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SpoiledRabbot.Extensions;
@@ -27,7 +28,26 @@ public class WebhookController : ControllerBase
     public async Task<IActionResult> PostForDialogflow([FromBody] DialogflowWebhookRequest value)
     {
         _logger.LogInformation("__{value}__", value.ToJson());
-        await _line.ReplyAsync(value.OriginalDetectIntentRequest.Payload.Data.ReplyToken, "Hello, World!");
+
+        var replyToken = value.OriginalDetectIntentRequest.Payload.Data.ReplyToken;
+
+        if (value.QueryResult.Intent.DisplayName == "calc")
+        {
+            var expression = value.QueryResult.Parameters.Calc;
+            var answer = new DataTable().Compute(expression, null).ToString();
+            await _line.ReplyAsync(replyToken, $"{answer} ไง ไอโง่นี่");
+        }
+        else
+        {
+            var images = new List<dynamic> {
+                new { AltText = "ชิดจู่", Url ="/images/12131016.png" },
+                new { AltText = "พูดโง่ไรน่ะ?", Url = "/images/12131017.png" },
+            };
+            var random = new Random();
+            var i = random.Next(2);
+            var image = images[i];
+            await _line.ReplyImageAsync(image.AltText, replyToken, image.Url);
+        }
         return Ok();
     }
 
