@@ -35,7 +35,7 @@ public class LineService
                     Hero = new ImageComponent
                     {
                         AspectMode = AspectMode.Cover,
-                        Url = url,
+                        Url = "https://spoiled-rabbot.twobe.net/images/12131017.png",
                     },
                 },
             };

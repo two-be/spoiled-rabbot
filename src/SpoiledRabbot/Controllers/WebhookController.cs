@@ -40,7 +40,7 @@ public class WebhookController : ControllerBase
         else
         {
             var images = new List<dynamic> {
-                new { AltText = "ชิดจู่", Url ="images/12131016.png" },
+                new { AltText = "ชิดจู่", Url = "images/12131016.png" },
                 new { AltText = "พูดโง่ไรน่ะ?", Url = "images/12131017.png" },
             };
             var random = new Random();
@@ -48,6 +48,8 @@ public class WebhookController : ControllerBase
             var image = images[i];
             var protocol = Request.IsHttps ? "https" : "http";
             var url = $"{protocol}://{Request.Host}/{image.Url}";
+
+            _logger.LogInformation("__{url}__", url);
 
             await _line.ReplyImageAsync(image.AltText, replyToken, url);
         }
