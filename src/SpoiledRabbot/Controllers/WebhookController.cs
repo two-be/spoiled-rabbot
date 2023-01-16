@@ -46,9 +46,8 @@ public class WebhookController : ControllerBase
             var random = new Random();
             var i = random.Next(2);
             var image = images[i];
-            var url = $"{Request.Scheme}://{Request.Host}/{image.Url}";
-
-            _logger.LogInformation("__{url}__", url);
+            var protocol = Request.IsHttps ? "https" : "http";
+            var url = $"{protocol}://{Request.Host}/{image.Url}";
 
             await _line.ReplyImageAsync(image.AltText, replyToken, url);
         }
