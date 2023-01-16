@@ -65,6 +65,7 @@ public class WebhookController : ControllerBase
         if (value.Events[0].Message.Type == "sticker")
         {
             value.Events[0].Message.Type = "text";
+            value.Events[0].Message.Text = "(sticker)";
         }
         using var client = _http.CreateClient();
         var rs = await client.PostAsJsonAsync($"https://dialogflow.cloud.google.com/v1/integrations/line/webhook/{_settings.Dialogflow.AgentId}", value);
