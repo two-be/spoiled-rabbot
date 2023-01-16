@@ -1,0 +1,7 @@
+###
+POST http://localhost:5254/Webhook/Dialogflow
+Content-Type: application/json
+
+{
+
+}

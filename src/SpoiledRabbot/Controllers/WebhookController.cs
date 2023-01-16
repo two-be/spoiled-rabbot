@@ -46,7 +46,7 @@ public class WebhookController : ControllerBase
             var random = new Random();
             var i = random.Next(2);
             var image = images[i];
-            await _line.ReplyImageAsync(image.AltText, replyToken, image.Url);
+            await _line.ReplyImageAsync(image.AltText, replyToken, $"{Request.Scheme}://{Request.Host}/{image.Url}");
         }
         return Ok();
     }
