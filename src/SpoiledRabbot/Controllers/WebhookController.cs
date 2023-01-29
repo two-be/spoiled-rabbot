@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using SpoiledRabbot.Extensions;
 using SpoiledRabbot.Models;
 using SpoiledRabbot.Services;
+using SpoiledRabbot.Utilities;
 
 namespace SpoiledRabbot.Controllers;
 
@@ -29,17 +30,31 @@ public class WebhookController : ControllerBase
     {
         _logger.LogInformation("__{value}__", value.ToJson());
 
+        var displayName = value.QueryResult.Intent.DisplayName;
+        var parameters = value.QueryResult.Parameters;
         var replyToken = value.OriginalDetectIntentRequest.Payload.Data.ReplyToken;
 
-        if (value.QueryResult.Intent.DisplayName == "calc")
+        if (displayName == "calc")
         {
-            var expression = value.QueryResult.Parameters.Calc;
+            var expression = parameters.Expression;
             var answer = new DataTable().Compute(expression, null).ToString();
             await _line.ReplyAsync(replyToken, $"{answer} ไง ไอโง่นี่");
         }
+        else if (displayName == "change-language")
+        {
+            var text = parameters.Text;
+            var trueText = string.Empty;
+            text.ToList().ForEach(x =>
+            {
+                var i = Strings.Th.IndexOf(x);
+                trueText += Strings.En.ElementAt(i);
+            });
+            await _line.ReplyAsync(replyToken, trueText);
+        }
         else
         {
-            var images = new List<string> {
+            var images = new List<string>
+            {
                 "https://spoiled-rabbot.twobe.net/images/12131016.png",
                 "https://spoiled-rabbot.twobe.net/images/12131017.png",
             };

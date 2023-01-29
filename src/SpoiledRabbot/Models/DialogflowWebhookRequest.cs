@@ -51,7 +51,8 @@ public record OutputContext
 
 public record Parameters
 {
-    public string Calc { get; set; } = string.Empty;
+    public string Expression { get; set; } = string.Empty;
+    public string Text { get; set; } = string.Empty;
 
     [JsonProperty("no-input")]
     public double NoInput { get; set; }
