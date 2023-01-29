@@ -36,15 +36,13 @@ public class WebhookController : ControllerBase
 
         if (displayName == "calc")
         {
-            var expression = parameters.Expression;
-            var answer = new DataTable().Compute(expression, null).ToString();
+            var answer = new DataTable().Compute(parameters.Expression, null).ToString();
             await _line.ReplyAsync(replyToken, $"{answer} ไง ไอโง่นี่");
         }
         else if (displayName == "change-language")
         {
-            var text = parameters.Text;
             var trueText = string.Empty;
-            text.ToList().ForEach(x =>
+            parameters.Text.ToList().ForEach(x =>
             {
                 var i = Strings.Th.IndexOf(x);
                 trueText += Strings.En.ElementAt(i);
