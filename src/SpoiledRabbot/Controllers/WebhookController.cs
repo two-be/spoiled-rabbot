@@ -49,6 +49,10 @@ public class WebhookController : ControllerBase
             });
             await _line.ReplyAsync(replyToken, trueText);
         }
+        else if (displayName == "sha")
+        {
+            await _line.ReplyAsync(replyToken, parameters.Text.ToSHA512());
+        }
         else
         {
             var images = new List<string>
