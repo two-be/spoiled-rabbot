@@ -2,7 +2,7 @@ using SpoiledRabbot.Extensions;
 
 namespace SpoiledRabbot.Models;
 
-public class UserInfo
+public record UserInfo
 {
     private string _password = string.Empty;
 
