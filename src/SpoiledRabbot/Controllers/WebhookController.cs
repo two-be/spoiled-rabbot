@@ -39,7 +39,7 @@ public class WebhookController : ControllerBase
             var answer = new DataTable().Compute(parameters.Expression, null).ToString();
             await _line.ReplyAsync(replyToken, $"{answer} ไง ไอโง่นี่");
         }
-        else if (displayName == "change-language")
+        else if (displayName == "code-language")
         {
             var trueText = string.Empty;
             parameters.Text.ToList().ForEach(x =>
